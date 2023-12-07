@@ -82,11 +82,13 @@ class LittleAirplanesCommand
                 $interaction->respondWithMessage(
                     $this->messageComposer->embed(
                         'MAH ÔÊÊ!',
-                        'Enviei tantos :airplane_small: aviõeszinhos hoje que não dava pra ver o céu oêê! Agora só amanhã!',
+                        sprintf(
+                            'Foram **%s coins** em :airplane_small: aviõeszinhos hoje que não dava pra ver o céu oêê! Agora só amanhã rá rá ê hi hi!',
+                            getenv('LITTLE_AIRPLANES_MAXIMUM_AMOUNT_DAY')
+                        ),
                         $this->config['images']['see_you_tomorrow'],
                         '#FF0000'
-                    ),
-                    true
+                    )
                 );
                 return;
             }

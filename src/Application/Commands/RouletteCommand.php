@@ -236,13 +236,13 @@ class RouletteCommand
 
             if ($winnerNumber == 0) {
                 $winnerResult = Roulette::GREEN;
-                $choice = "🟩 [$winnerNumber] GREEN [$winnerNumber] 🟩";
+                $choice = "🟩 G[$winnerNumber]";
             } elseif ($winnerNumber % 2 == 0) {
                 $winnerResult = Roulette::BLACK;
-                $choice = "⬛ [$winnerNumber] BLACK [$winnerNumber] ⬛";
+                $choice = "⬛ BL[$winnerNumber]";
             } else {
                 $winnerResult = Roulette::RED;
-                $choice = "🟥  [$winnerNumber] RED [$winnerNumber] 🟥";
+                $choice = "🟥 R[$winnerNumber]";
             }
 
             $bets = $this->rouletteRepository->payoutRoulette($eventId, $winnerResult);
@@ -260,7 +260,7 @@ class RouletteCommand
              */
             $embed = $this->discord->factory(Embed::class);
             $embed
-                ->setTitle(sprintf("ROLETA ENCERRADA\n[%s] %s", $eventId, $event[0]['description']))
+                ->setTitle(sprintf("ROLETA ENCERRADA 💰\n[%s] %s", $eventId, $event[0]['description']))
                 ->setColor('#F5D920')
                 ->setDescription($eventsDescription)
                 ->setImage($winnersImage);
@@ -355,7 +355,7 @@ class RouletteCommand
             $this->redis->set("roulette:{$rouletteId}", $serializado);
         }
 
-        $buttonRed = Button::new(Button::STYLE_DANGER)->setLabel("RED +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
+        $buttonRed = Button::new(Button::STYLE_DANGER)->setLabel("R +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
             $fromDiscordId = $interactionUser->member->user->id;
             $userDiscord = $interactionUser->member->user;
 
@@ -372,7 +372,7 @@ class RouletteCommand
             );
         }, $this->discord);
 
-        $buttonGreen = Button::new(Button::STYLE_SUCCESS)->setLabel("GREEN +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
+        $buttonGreen = Button::new(Button::STYLE_SUCCESS)->setLabel("G +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
             $fromDiscordId = $interactionUser->member->user->id;
             $userDiscord = $interactionUser->member->user;
 
@@ -389,7 +389,7 @@ class RouletteCommand
             );
         }, $this->discord);
 
-        $buttonBlack = Button::new(Button::STYLE_SECONDARY)->setLabel("BLACK +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
+        $buttonBlack = Button::new(Button::STYLE_SECONDARY)->setLabel("BL +{$amountBet}")->setListener(function (Interaction $interactionUser) use ($interaction, $rouletteId, $roulette, $amountBet, &$gameData) {
             $fromDiscordId = $interactionUser->member->user->id;
             $userDiscord = $interactionUser->member->user;
 
@@ -501,14 +501,14 @@ class RouletteCommand
         });
 
         $embed = new Embed($this->discord);
-        $embed->setTitle("💰 APOSTEM NA ROLETA: 💰\n**[{$rouletteId}]** {$roulette[0]['description']}")
+        $embed->setTitle("APOSTEM NA ROLETA 💰\n**[{$rouletteId}]** {$roulette[0]['description']}")
             ->setColor(0x00ff00)
             ->setDescription("Total: {$gameData->AmountTotal}")
             ->setFooter("Últimos giros:\n" . $this->buildLastRoulettesChoices());
 
-        $embed->addFieldValues('🟥  RED  🟥 2x', '', true)
-            ->addFieldValues('🟩 GREEN 🟩 14x', '', true)
-            ->addFieldValues('⬛ BLACK ⬛ 2x', '', true);
+        $embed->addFieldValues('🟥 RED 2x', '', true)
+            ->addFieldValues('🟩 GREEN 14x', '', true)
+            ->addFieldValues('⬛ BLACK 2x', '', true);
 
         $embed->addFieldValues(
             '',
